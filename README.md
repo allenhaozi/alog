@@ -24,7 +24,7 @@ logs.Debugf("%v start...", "debug")
 logs.DEBUG().Println("debug start...")
 ```
 
-add new Funciton nitALog, you can config it through map
+add new Function InitALog, you can config it through map
 ```go
 config := make(map[string]string)
 config["path"] = "your/log/path/"
