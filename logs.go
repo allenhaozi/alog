@@ -71,30 +71,25 @@ func InitFromXMLString(xml string) error {
 }
 
 func InitALog(data map[string]string) error {
-	xml := config.InitConfigString()
+	if len(data["path"]) <= 0 {
+		return errors.New("log path not found !")
+	}
+	xml := config.InitConfigString(data)
 	cfg, err := config.ParseXMLString(xml)
 	if err != nil {
 		return err
 	}
-
-	for _, c := range cfg.Items {
-		if rotate, ok := c.Items["rotate"]; ok {
-			if path, ok := data["path"]; ok {
-				rotate.Attrs["dir"] = path
-			} else {
-				return errors.New("log path not found !")
-			}
-			if size, ok := data["size"]; ok {
-				rotate.Attrs["size"] = size
-			}
-		} else if buffer, ok := c.Items["buffer"]; ok {
-			if path, ok := data["path"]; ok {
-				buffer.Items["rotate"].Attrs["dir"] = path
-			} else {
-				return errors.New("log path not found !")
-			}
-			if size, ok := data["size"]; ok {
-				buffer.Items["rotate"].Attrs["size"] = size
+	delete(data, "path")
+	if len(data) > 0 {
+		for _, c := range cfg.Items {
+			if rotate, ok := c.Items["rotate"]; ok {
+				if size, ok := data["size"]; ok {
+					rotate.Attrs["size"] = size
+				}
+			} else if buffer, ok := c.Items["buffer"]; ok {
+				if size, ok := data["size"]; ok {
+					buffer.Items["rotate"].Attrs["size"] = size
+				}
 			}
 		}
 	}
