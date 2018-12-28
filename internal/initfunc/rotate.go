@@ -6,19 +6,22 @@ package initfunc
 
 import (
 	"errors"
-	"fmt"
 	"io"
 	"strconv"
 	"strings"
+	"unicode"
 
 	"github.com/allenhaozi/alog/writers/rotate"
 )
 
+var invalidByteQuantityError = errors.New("byte quantity must be a positive integer with a unit of measurement like M, MB, MiB, G, GiB, or GB")
+
 const (
-	b int64 = 1 << (10 * iota)
-	kb
-	mb
-	gb
+	BYTE = 1 << (10 * iota)
+	KILOBYTE
+	MEGABYTE
+	GIGABYTE
+	TERABYTE
 )
 
 // Rotate 的初始化函数。
@@ -46,54 +49,39 @@ func Rotate(args map[string]string) (io.Writer, error) {
 	return rotate.New(format, dir, size)
 }
 
-// 将字符串转换成以字节为单位的数值。
-// 粗略计算，并不 100% 正确，小数只取整数部分。
-// 支持以下格式：
-//  1024
-//  1k
-//  1M
-//  1G
-// 后缀单位只支持 k,g,m，不区分大小写。
-func toByte(str string) (int64, error) {
-	if len(str) == 0 {
-		return -1, errors.New("不能传递空值")
+// ToBytes parses a string formatted by ByteSize as bytes. Note binary-prefixed and SI prefixed units both mean a base-2 units
+// KB = K = KiB = 1024
+// MB = M = MiB = 1024 * K
+// GB = G = GiB = 1024 * M
+// TB = T = TiB = 1024 * G
+func toByte(s string) (int64, error) {
+	s = strings.TrimSpace(s)
+	s = strings.ToUpper(s)
+
+	i := strings.IndexFunc(s, unicode.IsLetter)
+
+	if i == -1 {
+		return 0, invalidByteQuantityError
 	}
 
-	str = strings.ToLower(str)
+	bytesString, multiple := s[:i], s[i:]
+	bytes, err := strconv.ParseFloat(bytesString, 64)
+	if err != nil || bytes <= 0 {
+		return 0, invalidByteQuantityError
+	}
 
-	scale := b
-	unit := str[len(str)-1]
-	switch {
-	case unit >= '0' && unit <= '9':
-		scale = b
-	case unit == 'b':
-		scale = b
-	case unit == 'k':
-		scale = kb
-	case unit == 'm':
-		scale = mb
-	case unit == 'g':
-		scale = gb
+	switch multiple {
+	case "T", "TB", "TIB":
+		return int64(bytes * TERABYTE), nil
+	case "G", "GB", "GIB":
+		return int64(bytes * GIGABYTE), nil
+	case "M", "MB", "MIB":
+		return int64(bytes * MEGABYTE), nil
+	case "K", "KB", "KIB":
+		return int64(bytes * KILOBYTE), nil
+	case "B":
+		return int64(bytes), nil
 	default:
-		return -1, fmt.Errorf("无法识别的单位:[%v]", unit)
+		return 0, invalidByteQuantityError
 	}
-
-	if scale > 1 {
-		str = str[:len(str)-1]
-	}
-
-	if len(str) == 0 {
-		return -1, errors.New("传递了一个空值")
-	}
-
-	size, err := strconv.ParseFloat(str, 32)
-	if err != nil {
-		return -1, err
-	}
-
-	if size <= 0 {
-		return -1, fmt.Errorf("大小不能小于 0，当前值为:[%.4f]", size)
-	}
-
-	return int64(size) * scale, nil
 }

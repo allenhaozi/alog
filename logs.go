@@ -2,7 +2,7 @@
 // Use of this source code is governed by a MIT
 // license that can be found in the LICENSE file.
 
-package logs
+package alog
 
 import (
 	"errors"
@@ -74,27 +74,16 @@ func InitALog(data map[string]string) error {
 	if len(data["path"]) <= 0 {
 		return errors.New("log path not found !")
 	}
+
+	if len(data["size"]) <= 0 {
+		return errors.New("log rotate size not found !")
+	}
 	xml := config.InitConfigString(data)
 	cfg, err := config.ParseXMLString(xml)
 	if err != nil {
 		return err
 	}
-	delete(data, "path")
-	if len(data) > 0 {
-		for _, c := range cfg.Items {
-			if rotate, ok := c.Items["rotate"]; ok {
-				if size, ok := data["size"]; ok {
-					rotate.Attrs["size"] = size
-				}
-			} else if buffer, ok := c.Items["buffer"]; ok {
-				if size, ok := data["size"]; ok {
-					buffer.Items["rotate"].Attrs["size"] = size
-				}
-			}
-		}
-	}
-	//cfg.Items["info"].Items["buffer"].Items["rotate"].Attrs
-	//cfg.Items["error"].Items["rotate"].Attrs
+
 	return initFromConfig(cfg)
 }
 
