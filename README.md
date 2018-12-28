@@ -39,5 +39,5 @@ alog.Info(config)
 ### install
 
 ```shell
-    go get github.com/Allenhaozi/alog
+    go get github.com/allenhaozi/alog
 ```
