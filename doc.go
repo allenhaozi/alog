@@ -85,8 +85,8 @@
 //
 // 向控制台输出内容。可定义的属性为：
 //  output：    只能为 "stderr", "stdout" 两个值，表示输出的具体方向，默认值为 "stderr"；
-//  foreground: 表示输出时的前景色，其值在 github.com/Allenhaozi/alog/colors 中定义。
-//  background: 表示输出时的背景色，其值在 github.com/Allenhaozi/alog/colors 中定义。
+//  foreground: 表示输出时的前景色，其值在 github.com/allenhaozi/alog/colors 中定义。
+//  background: 表示输出时的背景色，其值在 github.com/allenhaozi/alog/colors 中定义。
 //
 //
 // 自定义

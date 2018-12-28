@@ -9,9 +9,9 @@ import (
 	"io"
 	"sync"
 
-	"github.com/Allenhaozi/alog/internal/config"
-	"github.com/Allenhaozi/alog/internal/initfunc"
-	"github.com/Allenhaozi/alog/writers"
+	"github.com/allenhaozi/alog/internal/config"
+	"github.com/allenhaozi/alog/internal/initfunc"
+	"github.com/allenhaozi/alog/writers"
 )
 
 // WriterInitializer io.Writer 实例的初始化函数。

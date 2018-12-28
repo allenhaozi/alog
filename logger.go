@@ -10,7 +10,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/Allenhaozi/alog/writers"
+	"github.com/allenhaozi/alog/writers"
 )
 
 var flagMap = map[string]int{

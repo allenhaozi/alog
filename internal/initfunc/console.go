@@ -9,8 +9,8 @@ import (
 	"io"
 	"os"
 
-	"github.com/Allenhaozi/alog/colors"
-	"github.com/Allenhaozi/alog/writers"
+	"github.com/allenhaozi/alog/colors"
+	"github.com/allenhaozi/alog/writers"
 )
 
 var consoleOutputMap = map[string]*os.File{

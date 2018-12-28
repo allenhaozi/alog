@@ -7,7 +7,7 @@ package writers
 import (
 	"os"
 
-	"github.com/Allenhaozi/alog/colors"
+	"github.com/allenhaozi/alog/colors"
 )
 
 // Console 带色彩输出的控制台。

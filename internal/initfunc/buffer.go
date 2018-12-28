@@ -8,7 +8,7 @@ import (
 	"io"
 	"strconv"
 
-	"github.com/Allenhaozi/alog/writers"
+	"github.com/allenhaozi/alog/writers"
 )
 
 // Buffer 是 writers.Buffer 的初始化函数

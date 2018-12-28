@@ -9,7 +9,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/Allenhaozi/alog/ansi"
+	"github.com/allenhaozi/alog/ansi"
 )
 
 // 前景色对照表

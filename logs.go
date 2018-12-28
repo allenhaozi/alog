@@ -12,7 +12,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/Allenhaozi/alog/internal/config"
+	"github.com/allenhaozi/alog/internal/config"
 )
 
 // 定义了一些日志的类型

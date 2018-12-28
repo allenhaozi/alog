@@ -11,7 +11,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Allenhaozi/alog/writers/rotate"
+	"github.com/allenhaozi/alog/writers/rotate"
 )
 
 const (

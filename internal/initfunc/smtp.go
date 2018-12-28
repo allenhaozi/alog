@@ -8,7 +8,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/Allenhaozi/alog/writers"
+	"github.com/allenhaozi/alog/writers"
 )
 
 // SMTP 是 writers.SMTP 的初始化函数
