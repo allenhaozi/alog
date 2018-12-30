@@ -1,39 +1,22 @@
 alog
 ======
 base on: https://github.com/issue9/logs
-
-```xml
-<?xml version="1.0" encoding="utf-8" ?>
-    <logs>
-        <debug>
-            <buffer size="10">
-                <rotate dir="/var/log/" size="5M" />
-                <stmp username=".." password=".." />
-            </buffer>
-        </debug>
-        <info>
-            ....
-        </info>
-    </logs>
-```
-
 ```go
-logs.InitFromXMLFile("./config.xml")
-logs.Debug("debug start...")
-logs.Debugf("%v start...", "debug")
-logs.DEBUG().Println("debug start...")
-```
 
-add new Function InitALog, you can config it through map
-```go
-config := make(map[string]string)
-config["path"] = "your/log/path/"
-//default size is 20M
-config["size"] = "5M"
+config := map[string]string{
+	"path"    : "point/to/your/log/path",
+	"size"    : "200M",
+	"buf_cnt" : "100",
+}
+//description
+//buf_cnt : set type of info log buffer size, default is 10
+//the log won't write to file until reach the buffer size or call alog.Flush
+
 alog.InitALog(config)
 alog.Error("occur error")
 alog.Info("access log")
 alog.Info(config)
+
 ```
 
 ### install
