@@ -13,9 +13,15 @@ config := map[string]string{
 //the log won't write to file until reach the buffer size or call alog.Flush
 
 alog.InitALog(config)
-alog.Error("occur error")
-alog.Info("access log")
-alog.Info(config)
+alog.Error("error content")
+alog.Info("access log content")
+alog.Debug("debug info content")
+alog.Warn("debug info content")
+alog.Trace("debug info content")
+alog.Critical("critical info content")
+
+//write buffer content to file
+alog.Flush()
 
 ```
 
