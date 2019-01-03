@@ -102,7 +102,7 @@ func InitALog(data map[string]string) error {
 //disable unaccepted log level
 func setLogLevel(strlevel string) {
 	intLevel := levels[strlevel]
-	for k, level := range levels {
+	for _, level := range levels {
 		if level > intLevel {
 			loggers[level].set(nil, "", 0)
 		}
