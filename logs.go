@@ -1,7 +1,3 @@
-// Copyright 2014 by caixw, All rights reserved.
-// Use of this source code is governed by a MIT
-// license that can be found in the LICENSE file.
-
 package alog
 
 import (
@@ -15,7 +11,7 @@ import (
 	"github.com/allenhaozi/alog/internal/config"
 )
 
-// 定义了一些日志的类型
+// define log level
 const (
 	LevelInfo = iota
 	LevelTrace
@@ -41,7 +37,7 @@ var (
 	discard = log.New(ioutil.Discard, "", 0)
 )
 
-// 在包初始化时，将每个日志通道指向空。
+// initialize
 func init() {
 	for index := range loggers {
 		loggers[index] = &logger{
@@ -116,7 +112,6 @@ func initFromConfig(cfg *config.Config) error {
 		if err != nil {
 			return err
 		}
-
 		loggers[index].set(w, c.Attrs["prefix"], flag)
 	}
 

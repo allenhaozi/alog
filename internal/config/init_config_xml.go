@@ -9,9 +9,11 @@ const (
 )
 
 var (
+	//log filename format
 	dateFormatYmdHi = "%Y%m%d%H.%i"
 	dateFormatYmdi  = "%Y%m%d.%i"
-	kindList        = map[string]string{
+
+	kindList = map[string]string{
 		info:       "access.log",
 		"debug":    "debug.log",
 		"trace":    "trace.log",
@@ -19,7 +21,13 @@ var (
 		"error":    "error.log",
 		"critical": "critical.log",
 	}
+
+	//default buffer size
 	defBufCnt = "10"
+	//custom log flag
+	flagCustom1 = "log.ldate|log.lmicroseconds"
+	flagCustom2 = "log.ldate|log.lmicroseconds|log.lshortfile"
+	flagCustom3 = "log.ldate|log.lmicroseconds|log.llongfile"
 )
 
 func InitConfigString(data map[string]string) string {
@@ -45,13 +53,13 @@ func buildXmlConfig(key, value, path, size, cnt string) string {
 		if i <= 0 || err != nil {
 			cnt = defBufCnt
 		}
-		str = "<" + key + `>
+		str = "<" + key + ` prefix="` + key + ` " flag="` + flagCustom1 + `">
 				<buffer size="` + cnt + `">
 				<rotate filename="` + dateFormatYmdHi + `.` + value + `" dir="` + path + `" size="` + size + `" />
 				</buffer>
 		    </` + key + ">"
 	} else {
-		str = "<" + key + `>
+		str = "<" + key + ` prefix="` + key + ` " flag="` + flagCustom2 + `">
 				<rotate filename="` + dateFormatYmdi + `.` + value + `" dir="` + path + `" size="` + size + `" />
 		    </` + key + ">"
 	}
