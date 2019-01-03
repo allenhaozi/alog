@@ -20,12 +20,13 @@ config := map[string]string{
 //level dict: critical,error,warn,info,debug,trace
 
 alog.InitALog(config)
+
+alog.Critical("critical info content")
 alog.Error("error content")
+alog.Warn("debug info content")
 alog.Info("access log content")
 alog.Debug("debug info content")
-alog.Warn("debug info content")
 alog.Trace("debug info content")
-alog.Critical("critical info content")
 
 //write buffer content to file
 alog.Flush()
