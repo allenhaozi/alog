@@ -1,7 +1,3 @@
-// Copyright 2014 by caixw, All rights reserved.
-// Use of this source code is governed by a MIT
-// license that can be found in the LICENSE file.
-
 // Package logs 是基于 XML 配置的日志系统。
 //
 // logs 定义了 6 个级别的日志：ERROR、INFO、TRACE、DEBUG、CRITICAL 和 WARN。
