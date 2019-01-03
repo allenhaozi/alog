@@ -13,12 +13,12 @@ import (
 
 // define log level
 const (
-	LevelInfo = iota
-	LevelTrace
-	LevelDebug
-	LevelWarn
+	LevelCritical = iota
 	LevelError
-	LevelCritical
+	LevelWarn
+	LevelInfo
+	LevelDebug
+	LevelTrace
 	levelSize
 )
 
@@ -74,13 +74,40 @@ func InitALog(data map[string]string) error {
 	if len(data["size"]) <= 0 {
 		return errors.New("log rotate size not found !")
 	}
+
+	if len(data["level"]) <= 0 {
+		data["level"] = "info"
+	}
+	if _, ok := levels[data["level"]]; !ok {
+		return errors.New("invalid log level set !")
+	}
+
 	xml := config.InitConfigString(data)
 	cfg, err := config.ParseXMLString(xml)
 	if err != nil {
 		return err
 	}
 
-	return initFromConfig(cfg)
+	err1 := initFromConfig(cfg)
+	if err1 != nil {
+		return err1
+	}
+
+	//set log level
+	setLogLevel(data["level"])
+
+	return nil
+}
+
+//disable unaccepted log level
+func setLogLevel(strlevel string) {
+	intLevel := levels[strlevel]
+	for k, level := range levels {
+		if level > intLevel {
+			loggers[level].set(nil, "", 0)
+		}
+	}
+
 }
 
 // SetWriter 设置某一个类型的输出通道
