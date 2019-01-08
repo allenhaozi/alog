@@ -298,3 +298,11 @@ func allf(format string, v ...interface{}) {
 		l.log.Output(3, fmt.Sprintf(format, v...))
 	}
 }
+
+func TT(v ...interface{}) {
+	if len(v) == 1 {
+		fmt.Println(v[0])
+	} else {
+		fmt.Println(v)
+	}
+}

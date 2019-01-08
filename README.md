@@ -31,6 +31,9 @@ alog.Trace("debug info content")
 //write buffer content to file
 alog.Flush()
 
+//write log to terminal
+alog.TT("your debug info")
+
 ```
 
 ### install
