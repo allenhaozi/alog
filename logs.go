@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/allenhaozi/alog/internal/config"
+	"github.com/allenhaozi/alog/spew"
 )
 
 // define log level
@@ -299,10 +300,6 @@ func allf(format string, v ...interface{}) {
 	}
 }
 
-func TT(v ...interface{}) {
-	if len(v) == 1 {
-		fmt.Println(v[0])
-	} else {
-		fmt.Println(v)
-	}
+func Dump(v ...interface{}) {
+	spew.Dump(v)
 }
