@@ -303,3 +303,6 @@ func allf(format string, v ...interface{}) {
 func Dump(v ...interface{}) {
 	spew.Dump(v)
 }
+func TT(v ...interface{}) {
+	spew.Dump(v)
+}
