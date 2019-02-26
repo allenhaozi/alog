@@ -1,6 +1,7 @@
 package alog
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -166,7 +167,10 @@ func INFO() *log.Logger {
 // Info 函数默认是带换行符的，若需要不带换行符的，请使用 DEBUG().Print() 函数代替。
 // 其它相似函数也有类型功能。
 func Info(v ...interface{}) {
-	INFO().Output(2, fmt.Sprintln(v...))
+	r, err := json.Marshal(v)
+	if err == nil {
+		INFO().Output(2, string(r))
+	}
 }
 
 // Infof 相当于 INFO().Printf(format, v...) 的简写方式
@@ -181,7 +185,10 @@ func DEBUG() *log.Logger {
 
 // Debug 相当于 DEBUG().Println(v...) 的简写方式
 func Debug(v ...interface{}) {
-	DEBUG().Output(2, fmt.Sprintln(v...))
+	r, err := json.Marshal(v)
+	if err == nil {
+		DEBUG().Output(2, string(r))
+	}
 }
 
 // Debugf 相当于 DEBUG().Printf(format, v...) 的简写方式
@@ -196,7 +203,10 @@ func TRACE() *log.Logger {
 
 // Trace 相当于 TRACE().Println(v...) 的简写方式
 func Trace(v ...interface{}) {
-	TRACE().Output(2, fmt.Sprintln(v...))
+	r, err := json.Marshal(v)
+	if err == nil {
+		TRACE().Output(2, string(r))
+	}
 }
 
 // Tracef 相当于 TRACE().Printf(format, v...) 的简写方式
@@ -211,7 +221,10 @@ func WARN() *log.Logger {
 
 // Warn 相当于 WARN().Println(v...) 的简写方式
 func Warn(v ...interface{}) {
-	WARN().Output(2, fmt.Sprintln(v...))
+	r, err := json.Marshal(v)
+	if err == nil {
+		WARN().Output(2, string(r))
+	}
 }
 
 // Warnf 相当于 WARN().Printf(format, v...) 的简写方式
@@ -226,7 +239,10 @@ func ERROR() *log.Logger {
 
 // Error 相当于 ERROR().Println(v...) 的简写方式
 func Error(v ...interface{}) {
-	ERROR().Output(2, fmt.Sprintln(v...))
+	r, err := json.Marshal(v)
+	if err == nil {
+		ERROR().Output(2, string(r))
+	}
 }
 
 // Errorf 相当于 ERROR().Printf(format, v...) 的简写方式
@@ -241,7 +257,10 @@ func CRITICAL() *log.Logger {
 
 // Critical 相当于 CRITICAL().Println(v...)的简写方式
 func Critical(v ...interface{}) {
-	CRITICAL().Output(2, fmt.Sprintln(v...))
+	r, err := json.Marshal(v)
+	if err == nil {
+		CRITICAL().Output(2, string(r))
+	}
 }
 
 // Criticalf 相当于 CRITICAL().Printf(format, v...) 的简写方式
