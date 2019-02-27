@@ -1,6 +1,12 @@
 package alog
 
-const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+import (
+	"math/rand"
+	"strings"
+	"time"
+)
+
+const letterBytes = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const (
 	letterIdxBits = 6                    // 6 bits to represent a letter index
 	letterIdxMask = 1<<letterIdxBits - 1 // All 1-bits, as many as letterIdxBits
@@ -14,11 +20,11 @@ func RandomString(n ...int) string {
 	if len(n) > 0 {
 		intLen = n[0]
 	} else {
-		intLen = 64
+		intLen = 32
 	}
-	b := make([]byte, n)
+	b := make([]byte, intLen)
 	// A src.Int63() generates 63 random bits, enough for letterIdxMax characters!
-	for i, cache, remain := n-1, src.Int63(), letterIdxMax; i >= 0; {
+	for i, cache, remain := intLen-1, src.Int63(), letterIdxMax; i >= 0; {
 		if remain == 0 {
 			cache, remain = src.Int63(), letterIdxMax
 		}
@@ -30,5 +36,5 @@ func RandomString(n ...int) string {
 		remain--
 	}
 
-	return string(b)
+	return strings.ToLower(string(b))
 }
