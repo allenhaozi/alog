@@ -50,7 +50,7 @@ func buildXmlConfig(key, value, path, size, cnt string) string {
 	var str string
 	if key == info {
 		i, err := strconv.Atoi(cnt)
-		if i <= 0 || err != nil {
+		if i < 0 || err != nil {
 			cnt = defBufCnt
 		}
 		str = "<" + key + ` prefix="` + key + ` " flag="` + flagCustom1 + `">
