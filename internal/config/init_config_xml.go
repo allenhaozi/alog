@@ -10,8 +10,9 @@ const (
 
 var (
 	//log filename format
-	dateFormatYmdHi = "%Y%m%d%H.%i"
-	dateFormatYmdi  = "%Y%m%d.%i"
+	dateFormatYmdHi  = "%Y%m%d%H.%i"
+	dateFormatYmdHmi = "%Y%m%d%H%n.%i"
+	dateFormatYmdi   = "%Y%m%d.%i"
 
 	kindList = map[string]string{
 		info:       "access.log",

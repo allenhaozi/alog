@@ -41,6 +41,7 @@ var (
 
 // initialize
 func init() {
+
 	for index := range loggers {
 		loggers[index] = &logger{
 			log: discard,
@@ -112,7 +113,6 @@ func setLogLevel(strlevel string) {
 
 }
 
-// SetWriter 设置某一个类型的输出通道
 //
 // 若将 w 设置为 nil 等同于 iotuil.Discard，即关闭此类型的输出。
 func SetWriter(level int, w io.Writer, prefix string, flag int) error {
@@ -131,7 +131,6 @@ func initFromConfig(cfg *config.Config) error {
 		if !found {
 			return fmt.Errorf("未知道的二级元素名称:[%s]", name)
 		}
-
 		flag, err := parseFlag(c.Attrs["flag"])
 		if err != nil {
 			return err

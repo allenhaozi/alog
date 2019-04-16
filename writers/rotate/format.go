@@ -22,7 +22,10 @@ var dateRelpacer = strings.NewReplacer(
 	"%m", "01",
 	"%d", "02",
 	"%h", "03",
-	"%H", "15")
+	"%H", "15",
+	"%n", "04", //minute
+	"%s", "05",
+)
 
 func parseFormat(format string) (prefix, suffix string, err error) {
 	index := strings.Index(format, indexPlaceholder)

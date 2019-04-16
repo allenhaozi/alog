@@ -25,6 +25,8 @@ type Rotate struct {
 
 	w     *os.File // 当前正在写的文件
 	wSize int64    // 当前正在写的文件大小
+
+	curDate string //date of the current log file
 }
 
 // New 新建 Rotate。
@@ -40,6 +42,12 @@ type Rotate struct {
 // dir 为文件保存的目录，若不存在会尝试创建。
 // size 为每个文件的最大尺寸，单位为 byte。
 func New(format, dir string, size int64) (*Rotate, error) {
+	//Sprint
+	p, s, err0 := parseFormat(format)
+	if err0 != nil {
+		return nil, err0
+	}
+
 	dir, err := filepath.Abs(dir)
 	if err != nil {
 		return nil, err
@@ -61,22 +69,21 @@ func New(format, dir string, size int64) (*Rotate, error) {
 			return nil, err
 		}
 	}
-
-	p, s, err := parseFormat(format)
-	if err != nil {
-		return nil, err
-	}
-
-	return &Rotate{
+	ins := &Rotate{
 		dir:    dir,
 		prefix: p,
 		suffix: s,
 		size:   size,
-	}, nil
+	}
+	//record current log file create date
+	ins.curDate = ins.getCurDate()
+
+	return ins, nil
 }
 
 // 打开一个日志文件
 func (r *Rotate) open() error {
+
 	if r.w != nil {
 		r.w.Close()
 	}
@@ -91,6 +98,7 @@ func (r *Rotate) open() error {
 	}
 
 	path := filepath.Join(r.dir, prefix+strconv.Itoa(index)+suffix)
+
 	stat, err := os.Stat(path)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -122,12 +130,20 @@ CREATE:
 }
 
 func (r *Rotate) Write(buf []byte) (int, error) {
+	//check log file size
 	if (r.wSize > r.size) || r.w == nil {
 		if err := r.open(); err != nil {
 			return 0, err
 		}
 	}
 
+	curDate := r.getCurDate()
+	if r.curDate != curDate {
+		if err := r.open(); err != nil {
+			return 0, err
+		}
+	}
+	//check log file name by date
 	size, err := r.w.Write(buf)
 	if err != nil {
 		return 0, err
@@ -150,4 +166,10 @@ func (r *Rotate) Close() error {
 // Flush 实现接口 Flusher.Flush()
 func (r *Rotate) Flush() {
 	r.Close()
+}
+
+func (r *Rotate) getCurDate() string {
+	current := time.Now()
+	date := current.Format("20060102")
+	return date
 }
