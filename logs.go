@@ -326,7 +326,7 @@ func TT(v ...interface{}) {
 }
 func Pretty(i ...interface{}) {
 	for _, v := range i {
-		res, _ := json.MarshalIndent(s, "", "  ")
+		res, _ := json.MarshalIndent(v, "", "  ")
 		fmt.Println(string(res))
 	}
 }
