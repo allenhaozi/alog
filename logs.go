@@ -324,3 +324,9 @@ func Dump(v ...interface{}) {
 func TT(v ...interface{}) {
 	spew.Dump(v)
 }
+func Pretty(i ...interface{}) {
+	for _, v := range i {
+		res, _ := json.MarshalIndent(s, "", "  ")
+		fmt.Println(string(res))
+	}
+}
